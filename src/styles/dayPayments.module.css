@@ -1,0 +1,427 @@
+/* =========================================
+   COMPONENTE DAY PAYMENTS
+   ========================================= */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.paymentsSection {
+  width: 100%;
+}
+
+/* ---------- HEADER ---------- */
+.paymentsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #4a90e2;
+}
+
+.paymentsTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #121212;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.paymentsTitle::before {
+  content: "💰";
+  font-size: 18px;
+}
+
+/* ---------- BOTÓN CARGAR PAGOS ---------- */
+.loadPaymentsBtn {
+  padding: 10px 20px;
+  background: #f0f8ff;
+  color: #4a90e2;
+  border: 1px solid #4a90e2;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.loadPaymentsBtn:hover:not(:disabled) {
+  background: #e3f2fd;
+  transform: translateY(-1px);
+}
+
+.loadPaymentsBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loadPaymentsBtn::before {
+  content: "🔄";
+}
+
+/* ---------- RESUMEN FINANCIERO ---------- */
+.paymentsSummary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summaryLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #757575;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summaryValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #121212;
+}
+
+.summaryValue.totalPaid {
+  color: #34c759;
+}
+
+.summaryValue.remaining {
+  color: #ff9500;
+}
+
+/* ---------- ESTADO VACÍO ---------- */
+.emptyPayments {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border: 2px dashed #e8e8e8;
+  margin-bottom: 24px;
+}
+
+.emptyIcon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.emptyMessage {
+  font-size: 15px;
+  color: #757575;
+  margin: 0;
+}
+
+/* ---------- LISTA DE PAGOS ---------- */
+.paymentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+/* ---------- ITEM DE PAGO ---------- */
+.paymentItem {
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+}
+
+.paymentItem:hover {
+  border-color: #4a90e2;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
+}
+
+.paymentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.paymentAmount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #34c759;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paymentMethod {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+.paymentMethod.cash {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.paymentMethod.transfer {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.paymentMethod.other {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.paymentNote {
+  font-size: 14px;
+  color: #757575;
+  margin: 8px 0;
+  padding: 8px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border-left: 3px solid #4a90e2;
+}
+
+.paymentDate {
+  font-size: 12px;
+  color: #b0b0b0;
+  text-align: right;
+}
+
+/* ---------- FORMULARIO NUEVO PAGO ---------- */
+.paymentForm {
+  margin-top: 32px;
+  padding: 24px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+}
+
+.paymentFormTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #121212;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.paymentFormTitle::before {
+  content: "➕";
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.formLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4d4d4d;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.formLabel::after {
+  content: ":";
+}
+
+.formInput {
+  padding: 12px 16px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #121212;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.formInput::placeholder {
+  color: #b0b0b0;
+}
+
+.formSelect {
+  padding: 12px 16px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #121212;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.formSelect:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* ---------- BOTÓN SUBMIT ---------- */
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: #4a90e2;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #357abd;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitBtn::before {
+  content: "💾";
+  font-size: 14px;
+}
+
+/* ---------- MENSAJES DE ESTADO ---------- */
+.fullyPaid {
+  text-align: center;
+  padding: 20px;
+  background: #e8f5e9;
+  border-radius: 12px;
+  border: 1px solid #c8e6c9;
+  color: #2e7d32;
+  font-weight: 600;
+  margin-top: 24px;
+}
+
+.fullyPaid::before {
+  content: "✅ ";
+}
+
+.errorMessage {
+  padding: 12px 16px;
+  background: #ffebee;
+  border-radius: 8px;
+  border: 1px solid #ffcdd2;
+  color: #d32f2f;
+  font-size: 14px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.errorMessage::before {
+  content: "⚠️";
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+  .paymentsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .loadPaymentsBtn {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  .paymentsSummary {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .paymentForm {
+    padding: 20px;
+  }
+
+  .paymentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .paymentsSection {
+    padding: 8px;
+  }
+
+  .paymentForm {
+    padding: 32px;
+  }
+
+  .formRow {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .formLabel {
+    width: 120px;
+    flex-shrink: 0;
+  }
+
+  .formInput,
+  .formSelect {
+    flex: 1;
+  }
+}
+
+/* ---------- ACCESIBILIDAD ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .loadPaymentsBtn,
+  .submitBtn,
+  .paymentItem {
+    transition: none;
+  }
+
+  .loadPaymentsBtn:hover:not(:disabled),
+  .submitBtn:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* ---------- FOCUS STATES ---------- */
+.loadPaymentsBtn:focus-visible,
+.formInput:focus-visible,
+.formSelect:focus-visible,
+.submitBtn:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}

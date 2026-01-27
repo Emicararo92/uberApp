@@ -1,0 +1,348 @@
+/* =========================================
+   AGENDA LIST - CALENDARIO/LISTA
+   ========================================= */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.container {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- TOGGLE VISTA ---------- */
+.viewToggle {
+  display: flex;
+  border-bottom: 1px solid #e8e8e8;
+  background: #f9f9f9;
+}
+
+.viewToggle button {
+  flex: 1;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #757575;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.viewToggle button:hover {
+  background: #f0f8ff;
+  color: #4a90e2;
+}
+
+.viewToggle button:first-child {
+  border-right: 1px solid #e8e8e8;
+}
+
+/* ---------- VISTA CALENDARIO ---------- */
+.calendarView {
+  padding: 20px;
+}
+
+/* HEADER CALENDARIO */
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.calendarHeader button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e8e8e8;
+  background: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #4a90e2;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.calendarHeader button:hover {
+  background: #f0f8ff;
+  border-color: #4a90e2;
+}
+
+/* BLOQUE MES */
+.monthBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.monthBlock strong {
+  font-size: 18px;
+  font-weight: 600;
+  color: #121212;
+  text-align: center;
+}
+
+.todayButton {
+  padding: 6px 16px;
+  background: #4a90e2;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.todayButton:hover {
+  background: #357abd;
+}
+
+/* GRID DE DÍAS */
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dayHeader {
+  text-align: center;
+  padding: 12px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #757575;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* CELDAS DE DÍAS */
+.dayCell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #f9f9f9;
+  font-size: 15px;
+  font-weight: 500;
+  color: #121212;
+  transition: all 0.2s ease;
+  position: relative;
+  min-height: 44px;
+}
+
+.dayCell.clickable {
+  cursor: pointer;
+  background: #ffffff;
+  border: 2px solid #e8e8e8;
+}
+
+.dayCell.clickable:hover {
+  background: #f0f8ff;
+  border-color: #4a90e2;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+}
+
+/* DÍA ACTUAL */
+.dayCell.today {
+  background: #e3f2fd;
+  border-color: #4a90e2;
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+.dayCell.today.clickable:hover {
+  background: #d1e9ff;
+}
+
+/* DÍAS ADEUDADOS */
+.dayCell.owedDay {
+  background: #fff3e0;
+  border-color: #ff9500;
+  color: #ff9500;
+  font-weight: 600;
+}
+
+.dayCell.owedDay.clickable:hover {
+  background: #ffe0b2;
+}
+
+/* CELDAS VACÍAS */
+.dayCell.empty {
+  background: transparent;
+  border: 2px dashed #f0f0f0;
+  cursor: default;
+}
+
+.dayCell.empty:hover {
+  background: transparent;
+  border-color: #f0f0f0;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---------- VISTA LISTA ---------- */
+.container > ul {
+  list-style: none;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.container > ul li {
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  color: #121212;
+}
+
+.container > ul li:hover {
+  background: #f0f8ff;
+  border-color: #4a90e2;
+  transform: translateX(4px);
+}
+
+/* Indicadores en lista */
+.container > ul li::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34c759; /* Verde por defecto (pagado/franco) */
+  margin-left: 12px;
+}
+
+/* Indicador para días adeudados en lista */
+.container > ul li[data-owed="true"]::after {
+  background: #ff9500; /* Naranja para adeudado */
+}
+
+/* Indicador para hoy en lista */
+.container > ul li[data-today="true"] {
+  background: #e3f2fd;
+  border-color: #4a90e2;
+  color: #4a90e2;
+  font-weight: 500;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  padding: 16px 20px;
+  background: #f9f9f9;
+  border-top: 1px solid #e8e8e8;
+  text-align: center;
+  font-size: 14px;
+  color: #757575;
+}
+
+.footer strong {
+  color: #ff9500;
+  font-weight: 600;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+  .calendarView {
+    padding: 16px;
+  }
+
+  .calendarHeader {
+    margin-bottom: 16px;
+  }
+
+  .daysGrid {
+    gap: 4px;
+  }
+
+  .dayCell {
+    min-height: 40px;
+    font-size: 14px;
+  }
+
+  .dayHeader {
+    padding: 10px 4px;
+    font-size: 11px;
+  }
+
+  .container > ul li {
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dayCell {
+    min-height: 36px;
+    font-size: 13px;
+  }
+
+  .monthBlock strong {
+    font-size: 16px;
+  }
+
+  .calendarHeader button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .todayButton {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ---------- ACCESIBILIDAD ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .dayCell,
+  .container > ul li,
+  .calendarHeader button,
+  .viewToggle button,
+  .todayButton {
+    transition: none;
+  }
+
+  .dayCell.clickable:hover,
+  .container > ul li:hover {
+    transform: none;
+  }
+}
+
+/* ---------- ESTADOS FOCUS ---------- */
+.viewToggle button:focus-visible,
+.calendarHeader button:focus-visible,
+.todayButton:focus-visible,
+.dayCell.clickable:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+.container > ul li:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
