@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
 import DayPayments from "../../../../components/driver/day/dayPayments";
 import styles from "../../../../styles/dayId.module.css";
+import DayOffToggle from "../../../../components/driver/day/driverDayOff";
 
 type Props = {
   params: Promise<{
@@ -16,6 +18,17 @@ export default async function DriverDayPage({ params }: Props) {
 
   // 🔥 normalizar fecha
   const onlyDate = id.includes("T") ? id.split("T")[0] : id;
+
+  // 🔥 fecha segura
+  const parsedDate = new Date(`${onlyDate}T00:00:00`);
+
+  const prevDate = new Date(parsedDate);
+  prevDate.setDate(prevDate.getDate() - 1);
+
+  const nextDate = new Date(parsedDate);
+  nextDate.setDate(nextDate.getDate() + 1);
+
+  const formatUrlDate = (d: Date) => d.toISOString().split("T")[0];
 
   const supabase = await supabaseServer();
 
@@ -61,8 +74,6 @@ export default async function DriverDayPage({ params }: Props) {
     .eq("date", onlyDate)
     .maybeSingle();
 
-  const parsedDate = new Date(onlyDate);
-
   const totalPaid =
     day?.payment_day_links?.reduce(
       (acc: number, p: { amount_applied: number }) =>
@@ -105,21 +116,36 @@ export default async function DriverDayPage({ params }: Props) {
 
   return (
     <main className={styles.dayPage}>
+      {/* 🔁 NAVEGACIÓN DE DÍAS */}
       <header className={styles.dayHeader}>
-        <h1 className={styles.dayTitle}>Día</h1>
-        <p className={styles.daySubtitle}>{profile.full_name} — chofer</p>
+        <div className={styles.dayNav}>
+          <Link
+            href={`/driver/day/${formatUrlDate(prevDate)}`}
+            className={styles.dayNavBtn}
+          >
+            ← Anterior
+          </Link>
+
+          <p className={styles.daySubtitle}>{profile.full_name} — chofer</p>
+
+          <Link
+            href={`/driver/day/${formatUrlDate(nextDate)}`}
+            className={styles.dayNavBtn}
+          >
+            Siguiente →
+          </Link>
+        </div>
       </header>
 
       <section className={styles.dayMainInfo}>
         <div className={styles.dayDate}>
-          {isNaN(parsedDate.getTime())
-            ? onlyDate
-            : parsedDate.toLocaleDateString("es-AR", {
-                weekday: "short",
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
+          {parsedDate.toLocaleDateString("es-AR", {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            timeZone: "UTC",
+          })}
         </div>
 
         <div className={styles.dayStatus}>
@@ -133,12 +159,17 @@ export default async function DriverDayPage({ params }: Props) {
         </div>
       </section>
 
+      {/* RESTO IGUAL */}
+
       <section className={styles.dayBlock}>
         <h2 className={styles.dayBlockTitle}>Estado del día</h2>
+
         <div className={styles.dayRow}>
           <span>Franco</span>
           <strong>{resolvedDay.is_day_off ? "Sí" : "No"}</strong>
         </div>
+
+        <DayOffToggle date={onlyDate} isDayOff={resolvedDay.is_day_off} />
       </section>
 
       <section className={styles.dayBlock}>

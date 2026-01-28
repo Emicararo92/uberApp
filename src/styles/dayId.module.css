@@ -4,237 +4,173 @@
 
 /* ---------- PÁGINA PRINCIPAL ---------- */
 .dayPage {
+  padding: 16px;
   width: 100%;
   min-height: 100vh;
-  background: #ffffff;
+  background-color: #ffffff;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
-  color: #121212;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding: 16px;
-  scroll-behavior: smooth;
 }
 
 /* ---------- HEADER ---------- */
 .dayHeader {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #e8e8e8;
-  position: relative;
 }
 
 .dayTitle {
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
   color: #121212;
-  margin: 0 0 8px 0;
+  margin: 0;
   line-height: 1.2;
-  letter-spacing: -0.02em;
 }
 
 .daySubtitle {
-  font-size: 15px;
-  color: #757575;
-  margin: 0;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.daySubtitle::before {
-  content: "👤";
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a90e2;
+  margin: 4px 0 0 0;
 }
 
 /* ---------- INFORMACIÓN PRINCIPAL ---------- */
 .dayMainInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 32px;
-  padding: 24px;
-  background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
-  border-radius: 16px;
-  border: 1px solid #e8e8e8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
 }
 
 /* FECHA */
 .dayDate {
-  font-size: 20px;
-  font-weight: 700;
-  color: #121212;
-  padding: 8px;
-  background: #ffffff;
+  padding: 12px;
+  background-color: #f9f9f9;
+  color: #000000;
+  font-size: x-large;
   border-radius: 8px;
   border: 1px solid #e8e8e8;
   text-align: center;
-  position: relative;
 }
 
 .dayDate::before {
   content: "📅 FECHA";
   display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: #4a90e2;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2c2b2b;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.dayDateValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #121212;
+  display: block;
+  line-height: 1;
 }
 
 /* ESTADO FINANCIERO */
 .dayStatus {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 8px;
-  background: #ffffff;
+  padding: 12px;
+  background-color: #f9f9f9;
   border-radius: 8px;
   border: 1px solid #e8e8e8;
+  text-align: center;
 }
 
 .dayStatus .label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #757575;
+  font-size: 12px;
+  font-weight: 500;
+  color: #000000;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .dayStatus .value {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  padding: 8px 24px;
-  border-radius: 50px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  width: 100%;
-  max-width: 200px;
-  transition: all 0.2s ease;
+  display: block;
+  line-height: 1;
 }
 
-/* Colores estados - MÓVIL FRIENDLY */
+/* Colores estados */
 .dayStatus .value[data-status="pendiente"] {
-  background: linear-gradient(135deg, #ff9500 0%, #ffa726 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3);
+  color: #ff9500;
 }
 
 .dayStatus .value[data-status="parcial"] {
-  background: linear-gradient(135deg, #5ac8fa 0%, #5ac8fa 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(90, 200, 250, 0.3);
+  color: #4a90e2;
 }
 
 .dayStatus .value[data-status="pagado"] {
-  background: linear-gradient(135deg, #34c759 0%, #4cd964 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+  color: #34c759;
 }
 
 .dayStatus .value[data-status="franco"] {
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+  color: #4a90e2;
 }
 
 /* ---------- BLOQUES DE CONTENIDO ---------- */
 .dayBlock {
   margin-bottom: 24px;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #e8e8e8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.dayBlock:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
-
-.dayBlock:last-child {
-  margin-bottom: 0;
 }
 
 .dayBlockTitle {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   color: #121212;
-  margin: 0 0 24px 0;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #f0f8ff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.dayBlockTitle::before {
-  content: "";
-  width: 4px;
-  height: 20px;
-  background: #4a90e2;
-  border-radius: 2px;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 /* ---------- FILAS DE INFORMACIÓN ---------- */
 .dayRow {
+  padding: 16px;
+  border-bottom: 1px solid #e8e8e8;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid #f0f0f0;
-  min-height: 56px; /* Altura táctil mínima */
+  transition: background-color 150ms ease;
 }
 
 .dayRow:last-child {
   border-bottom: none;
 }
 
+.dayRow:hover {
+  background-color: #f0f8ff;
+}
+
 .dayRow span {
-  font-size: 16px;
-  color: #4d4d4d;
+  font-size: 14px;
+  color: #000000;
   font-weight: 500;
-  flex: 1;
 }
 
 .dayRow strong {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #121212;
-  text-align: right;
-  min-width: 100px; /* Espacio consistente para números */
 }
 
 /* ---------- DESTACADOS (DEUDA) ---------- */
 .dayRow[data-highlight="true"] {
-  background: linear-gradient(135deg, #fff3e0 0%, #fff8e1 100%);
-  margin: 16px -24px;
-  padding: 16px 24px;
-  border-radius: 12px;
+  background-color: #fff3e0;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 0;
   border-left: 4px solid #ff9500;
   border-right: 4px solid #ff9500;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.9;
-  }
 }
 
 .dayRow[data-highlight="true"] span {
@@ -244,16 +180,17 @@
 
 .dayRow[data-highlight="true"] strong {
   color: #ff9500;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 /* ---------- FRANCO DESTACADO ---------- */
 .dayRow[data-franco="true"] {
-  background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%);
-  margin: 16px -24px;
-  padding: 16px 24px;
-  border-radius: 12px;
+  background-color: #f0f8ff;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 0;
   border-left: 4px solid #4a90e2;
   border-right: 4px solid #4a90e2;
 }
@@ -264,291 +201,273 @@
 }
 
 .dayRow[data-franco="true"] strong {
-  color: #4a90e2;
-  font-size: 20px;
-  font-weight: 800;
+  color: #3b71af;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 /* ---------- NOTAS ---------- */
 .dayBlock:has(.dayRow span) .dayRow:only-child {
-  border: none;
   padding: 0;
+  border: none;
+  display: block;
 }
 
 .dayBlock:has(.dayRow span) .dayRow:only-child span {
   color: #757575;
   font-style: italic;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   padding: 16px;
-  background: #f5f5f5;
-  border-radius: 12px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
   border: 1px solid #e8e8e8;
   width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
+  display: block;
 }
 
 /* ---------- COMPONENTE DAY PAYMENTS ---------- */
-.dayBlock:has(.dayPayments) {
-  padding: 24px;
+.dayBlock:has(.paymentsSection) {
+  margin-bottom: 24px;
 }
 
-.dayPayments {
+.dayBlock:has(.paymentsSection) .paymentsSection {
   width: 100%;
+  margin: 0;
 }
 
 /* ---------- MEDIA QUERIES - TABLET ---------- */
 @media (min-width: 640px) {
   .dayPage {
-    padding: 32px;
-    max-width: 640px;
-    margin: 0 auto;
+    padding: 24px;
   }
 
   .dayMainInfo {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-    padding: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
-  .dayDate {
-    font-size: 22px;
-    flex: 1;
-  }
-
+  .dayDate,
   .dayStatus {
-    flex: 1;
+    padding: 16px;
   }
 
+  .dayDateValue,
   .dayStatus .value {
-    font-size: 20px;
-    padding: 16px 32px;
-  }
-
-  .dayBlock {
-    padding: 32px;
-  }
-
-  .dayRow {
-    padding: 24px 0;
-  }
-
-  .dayRow strong {
-    font-size: 20px;
-  }
-
-  .dayRow[data-highlight="true"] {
-    margin: 16px -32px;
-    padding: 16px 32px;
-  }
-
-  .dayRow[data-franco="true"] {
-    margin: 16px -32px;
-    padding: 16px 32px;
-  }
-}
-
-/* ---------- MEDIA QUERIES - DESKTOP ---------- */
-@media (min-width: 1024px) {
-  .dayPage {
-    max-width: 800px;
-    padding: 48px 32px;
-    margin: 0 auto;
-  }
-
-  .dayTitle {
-    font-size: 32px;
-  }
-
-  .daySubtitle {
-    font-size: 16px;
-  }
-
-  .dayMainInfo {
-    padding: 32px 48px;
-  }
-
-  .dayDate {
     font-size: 24px;
-  }
-
-  .dayStatus .value {
-    font-size: 22px;
-    max-width: 250px;
-  }
-
-  .dayBlock {
-    padding: 32px 48px;
-    margin-bottom: 32px;
   }
 
   .dayBlockTitle {
     font-size: 20px;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
   }
 
   .dayRow {
-    padding: 24px 0;
+    padding: 20px;
   }
 
   .dayRow span {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .dayRow strong {
+    font-size: 18px;
+  }
+
+  .dayRow[data-highlight="true"],
+  .dayRow[data-franco="true"] {
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .dayBlock:has(.dayRow span) .dayRow:only-child span {
+    padding: 20px;
+  }
+}
+
+/* ---------- MEDIA QUERIES - DESKTOP ---------- */
+@media (min-width: 900px) {
+  .dayPage {
+    margin-left: 260px;
+    max-width: calc(100% - 260px);
+    padding: 32px;
+  }
+
+  .dayTitle {
+    font-size: 28px;
+  }
+
+  .daySubtitle {
+    font-size: 18px;
+  }
+
+  .dayMainInfo {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .dayDate,
+  .dayStatus {
+    padding: 20px;
+  }
+
+  .dayDateValue,
+  .dayStatus .value {
+    font-size: 28px;
+  }
+
+  .dayDate::before,
+  .dayStatus .label {
+    font-size: 13px;
+  }
+
+  .dayBlockTitle {
     font-size: 22px;
-    min-width: 120px;
+    margin-bottom: 24px;
+  }
+
+  .dayRow {
+    padding: 24px;
+  }
+
+  .dayRow span {
+    font-size: 16px;
+  }
+
+  .dayRow strong {
+    font-size: 20px;
   }
 
   .dayRow[data-highlight="true"] strong,
   .dayRow[data-franco="true"] strong {
-    font-size: 24px;
+    font-size: 22px;
   }
 
-  .dayRow[data-highlight="true"] {
-    margin: 16px -48px;
-    padding: 16px 48px;
-  }
-
+  .dayRow[data-highlight="true"],
   .dayRow[data-franco="true"] {
-    margin: 16px -48px;
-    padding: 16px 48px;
+    margin: 0 -32px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .dayBlock:has(.dayRow span) .dayRow:only-child span {
+    padding: 24px;
+    font-size: 15px;
   }
 }
 
 /* ---------- MEDIA QUERIES - GRAN DESKTOP ---------- */
 @media (min-width: 1280px) {
   .dayPage {
-    max-width: 900px;
+    padding: 40px 48px;
+    margin-left: 260px;
+    max-width: calc(100% - 260px);
   }
 
   .dayTitle {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .dayMainInfo {
-    padding: 48px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 
-  .dayBlock {
-    padding: 48px;
+  .dayDate,
+  .dayStatus {
+    padding: 24px;
   }
 
-  .dayRow[data-highlight="true"] {
-    margin: 16px -48px;
-    padding: 16px 48px;
+  .dayDateValue,
+  .dayStatus .value {
+    font-size: 32px;
   }
 
+  .dayBlockTitle {
+    font-size: 24px;
+  }
+
+  .dayRow[data-highlight="true"],
   .dayRow[data-franco="true"] {
-    margin: 16px -48px;
-    padding: 16px 48px;
+    margin: 0 -48px;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+/* ---------- AJUSTES PARA MOBILE (CON TOPBAR) ---------- */
+@media (max-width: 899px) {
+  .dayPage {
+    margin-top: 64px;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* ---------- MOBILE PEQUEÑO ---------- */
+@media (max-width: 380px) {
+  .dayPage {
+    padding: 12px;
+    margin-top: 64px;
+  }
+
+  .dayMainInfo {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dayDate,
+  .dayStatus {
+    padding: 12px;
+  }
+
+  .dayDateValue,
+  .dayStatus .value {
+    font-size: 18px;
+  }
+
+  .dayRow {
+    padding: 12px;
+  }
+
+  .dayRow[data-highlight="true"],
+  .dayRow[data-franco="true"] {
+    margin: 0 -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .dayBlock:has(.dayRow span) .dayRow:only-child span {
+    padding: 12px;
   }
 }
 
 /* ---------- ACCESIBILIDAD ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .dayBlock,
-  .dayStatus .value,
+  .dayRow,
   .dayRow[data-highlight="true"] {
     transition: none;
     animation: none;
   }
-
-  .dayBlock:hover {
-    transform: none;
-  }
 }
 
-/* ---------- DARK MODE SUPPORT ---------- */
-@media (prefers-color-scheme: dark) {
-  .dayPage {
-    background: #121212;
-    color: #e1e1e1;
-  }
-
-  .dayHeader {
-    border-bottom-color: #2d2d2d;
-  }
-
-  .dayTitle {
-    color: #ffffff;
-  }
-
-  .daySubtitle {
-    color: #b0b0b0;
-  }
-
-  .dayMainInfo {
-    background: #1e1e1e;
-    border-color: #2d2d2d;
-  }
-
-  .dayDate {
-    background: #2d2d2d;
-    border-color: #3d3d3d;
-    color: #ffffff;
-  }
-
-  .dayStatus {
-    background: #2d2d2d;
-    border-color: #3d3d3d;
-  }
-
-  .dayStatus .label {
-    color: #b0b0b0;
-  }
-
-  .dayBlock {
-    background: #1e1e1e;
-    border-color: #2d2d2d;
-  }
-
-  .dayBlockTitle {
-    color: #ffffff;
-    border-bottom-color: #2d2d2d;
-  }
-
-  .dayRow {
-    border-bottom-color: #2d2d2d;
-  }
-
-  .dayRow span {
-    color: #b0b0b0;
-  }
-
-  .dayRow strong {
-    color: #ffffff;
-  }
-
-  .dayBlock:has(.dayRow span) .dayRow:only-child span {
-    background: #2d2d2d;
-    border-color: #3d3d3d;
-    color: #b0b0b0;
-  }
+.dayNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
-/* ---------- UTILIDADES ---------- */
-.dayPage .no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.dayNavBtn {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  background: #f2f2f2;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
 }
 
-.dayPage .no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.dayPage .truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dayPage .multi-line-truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}

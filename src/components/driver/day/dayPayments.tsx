@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
@@ -42,7 +41,7 @@ export default function DayPayments({
   const [payments, setPayments] = useState<Payment[]>([]);
   const [totalPaid, setTotalPaid] = useState(0);
   const [amount, setAmount] = useState("");
-  const [method, setMethod] = useState("cash");
+  const [method, setMethod] = useState("Efectivo");
   const [note, setNote] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -50,7 +49,6 @@ export default function DayPayments({
 
   const remaining = baseAmount - totalPaid;
 
-  // Cargar pagos automáticamente al montar
   useEffect(() => {
     loadPayments();
   }, []);
@@ -75,16 +73,7 @@ export default function DayPayments({
         .eq("agenda_day_id", agendaDayId)
         .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error("Error cargando pagos:", error);
-        return;
-      }
-
-      if (!data) {
-        setPayments([]);
-        setTotalPaid(0);
-        return;
-      }
+      if (error || !data) return;
 
       const mapped: Payment[] = (data as unknown as PaymentRow[]).map(
         (row) => ({
@@ -101,8 +90,6 @@ export default function DayPayments({
 
       setPayments(mapped);
       setTotalPaid(total);
-    } catch (err) {
-      console.error("Error inesperado:", err);
     } finally {
       setIsLoading(false);
     }
@@ -120,120 +107,115 @@ export default function DayPayments({
     }
 
     if (value > remaining) {
-      setError(`El monto no puede superar el restante ($${remaining})`);
+      setError(`No puede superar el restante ($${remaining})`);
       return;
     }
 
     startTransition(async () => {
-      try {
-        const { data: payment, error: paymentError } = await supabase
-          .from("payments")
-          .insert({
-            driver_id: driverId,
-            amount: value,
-            method,
-            note: note || null,
-          })
-          .select()
-          .single();
+      const { data: payment, error: paymentError } = await supabase
+        .from("payments")
+        .insert({
+          driver_id: driverId,
+          amount: value,
+          method,
+          note: note || null,
+        })
+        .select()
+        .single();
 
-        if (paymentError || !payment) {
-          setError("Error creando el pago");
-          return;
-        }
-
-        const { error: linkError } = await supabase
-          .from("payment_day_links")
-          .insert({
-            payment_id: payment.id,
-            agenda_day_id: agendaDayId,
-            amount_applied: value,
-          });
-
-        if (linkError) {
-          setError(linkError.message);
-          return;
-        }
-
-        // Limpiar formulario
-        setAmount("");
-        setNote("");
-
-        // Recargar pagos
-        await loadPayments();
-      } catch (err) {
-        setError("Error inesperado al guardar el pago");
+      if (paymentError || !payment) {
+        setError("Error creando el pago");
+        return;
       }
+
+      const { error: linkError } = await supabase
+        .from("payment_day_links")
+        .insert({
+          payment_id: payment.id,
+          agenda_day_id: agendaDayId,
+          amount_applied: value,
+        });
+
+      if (linkError) {
+        setError(linkError.message);
+        return;
+      }
+
+      setAmount("");
+      setNote("");
+      await loadPayments();
     });
   }
 
-  // Formatear fecha
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-AR", {
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("es-AR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
 
-  // Formatear número con separadores de miles
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("es-AR").format(value);
-  };
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("es-AR").format(value);
 
   return (
     <section className={styles.paymentsSection}>
       {/* HEADER */}
       <div className={styles.paymentsHeader}>
-        <h2 className={styles.paymentsTitle}>Pagos del Día</h2>
+        <div>
+          <h2 className={styles.paymentsTitle}>Pagos</h2>
+          <p className={styles.paymentsSubtitle}>Movimientos del día</p>
+        </div>
+
         <button
           type="button"
           onClick={loadPayments}
           disabled={isLoading}
           className={styles.loadPaymentsBtn}
         >
-          {isLoading ? "Cargando..." : "Actualizar"}
+          {isLoading ? "Actualizando…" : "Actualizar"}
         </button>
       </div>
 
-      {/* RESUMEN FINANCIERO */}
+      {/* RESUMEN */}
       <div className={styles.paymentsSummary}>
-        <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>Total Pagado</span>
-          <span className={`${styles.summaryValue} ${styles.totalPaid}`}>
-            ${formatCurrency(totalPaid)}
+        <div className={`${styles.summaryItem} ${styles.remainingBox}`}>
+          <span className={styles.summaryLabel}>Restante</span>
+          <span className={styles.remainingValue}>
+            ${formatCurrency(remaining)}
           </span>
         </div>
+
         <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>Restante</span>
-          <span className={`${styles.summaryValue} ${styles.remaining}`}>
-            ${formatCurrency(remaining)}
+          <span className={styles.summaryLabel}>Total pagado</span>
+          <span className={styles.totalPaidValue}>
+            ${formatCurrency(totalPaid)}
           </span>
         </div>
       </div>
 
-      {/* LISTA DE PAGOS */}
+      {/* LISTA */}
       {payments.length === 0 ? (
         <div className={styles.emptyPayments}>
           <div className={styles.emptyIcon}>💸</div>
-          <p className={styles.emptyMessage}>No hay pagos registrados</p>
+          <p className={styles.emptyMessage}>Todavía no hay pagos</p>
         </div>
       ) : (
         <div className={styles.paymentsList}>
           {payments.map((payment) => (
             <div key={payment.id} className={styles.paymentItem}>
-              <div className={styles.paymentHeader}>
+              <div className={styles.paymentTop}>
                 <span className={styles.paymentAmount}>
                   ${formatCurrency(payment.amount_applied)}
                 </span>
+
                 <span
                   className={`${styles.paymentMethod} ${styles[payment.method]}`}
                 >
-                  {payment.method === "cash"
+                  {payment.method === "Efectivo"
                     ? "Efectivo"
-                    : payment.method === "transfer"
+                    : payment.method === "Transferencia"
                       ? "Transferencia"
                       : "Otro"}
                 </span>
@@ -251,10 +233,10 @@ export default function DayPayments({
         </div>
       )}
 
-      {/* FORMULARIO NUEVO PAGO (solo si hay saldo pendiente) */}
+      {/* FORM */}
       {remaining > 0 && (
         <form onSubmit={handleSubmit} className={styles.paymentForm}>
-          <h3 className={styles.paymentFormTitle}>Agregar Nuevo Pago</h3>
+          <h3 className={styles.paymentFormTitle}>Nuevo pago</h3>
 
           <div className={styles.formRow}>
             <label className={styles.formLabel}>Monto</label>
@@ -267,7 +249,6 @@ export default function DayPayments({
               required
               min="1"
               max={remaining}
-              step="1"
             />
           </div>
 
@@ -278,8 +259,8 @@ export default function DayPayments({
               onChange={(e) => setMethod(e.target.value)}
               className={styles.formSelect}
             >
-              <option value="cash">Efectivo</option>
-              <option value="transfer">Transferencia</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
               <option value="other">Otro</option>
             </select>
           </div>
@@ -288,7 +269,7 @@ export default function DayPayments({
             <label className={styles.formLabel}>Nota</label>
             <input
               type="text"
-              placeholder="Descripción opcional"
+              placeholder="Opcional"
               value={note}
               onChange={(e) => setNote(e.target.value)}
               className={styles.formInput}
@@ -303,12 +284,11 @@ export default function DayPayments({
             disabled={isPending || !amount}
             className={styles.submitBtn}
           >
-            {isPending ? "Guardando..." : "Guardar Pago"}
+            {isPending ? "Guardando…" : "Guardar pago"}
           </button>
         </form>
       )}
 
-      {/* MENSAJE DÍA PAGADO COMPLETAMENTE */}
       {remaining <= 0 && payments.length > 0 && (
         <div className={styles.fullyPaid}>Día completamente pagado</div>
       )}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../../styles/agendaList.module.css";
 
@@ -13,10 +13,15 @@ type AgendaDay = {
   financial_status?: "pendiente" | "parcial" | "pagado" | "franco";
 };
 
-type CalendarDay = {
+type WeekDay = {
   date: string;
+  dayOfMonth: number;
+  dayName: string;
+  dayNameShort: string;
   data: AgendaDay | undefined;
-  number: number;
+  isToday: boolean;
+  isPast: boolean;
+  isFuture: boolean;
 };
 
 type AgendaListProps = {
@@ -25,8 +30,14 @@ type AgendaListProps = {
 
 export default function AgendaList({ days }: AgendaListProps) {
   const router = useRouter();
-  const [viewMode, setViewMode] = useState<"calendar" | "list">("calendar");
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
+    // Empezar el lunes de esta semana
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1); // Lunes como primer día
+    const start = new Date(today.getFullYear(), today.getMonth(), diff);
+    return start;
+  });
 
   if (!days || days.length === 0) {
     return (
@@ -43,91 +54,187 @@ export default function AgendaList({ days }: AgendaListProps) {
      HELPERS
   ========================= */
 
-  const todayStr = new Date().toISOString().split("T")[0];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().split("T")[0];
 
-  const isToday = (date: string) => date === todayStr;
-  const isPastDay = (date: string) => date < todayStr;
-
-  const isOwedDay = (day?: AgendaDay) => {
-    if (!day || !day.financial_status) return true; // 👉 día no creado = NO PAGADO
-    return (
-      day.financial_status === "pendiente" || day.financial_status === "parcial"
-    );
+  const formatDate = (date: Date): string => {
+    return date.toISOString().split("T")[0];
   };
 
-  // 👉 NAVEGACIÓN SIEMPRE POR FECHA
+  const isPastDay = (date: string) => {
+    const dayDate = new Date(date);
+    dayDate.setHours(0, 0, 0, 0);
+    return dayDate < today;
+  };
+
+  const isFutureDay = (date: string) => {
+    const dayDate = new Date(date);
+    dayDate.setHours(0, 0, 0, 0);
+    return dayDate > today;
+  };
+
+  const getStatusClass = (status?: string) => {
+    switch (status) {
+      case "pagado":
+        return styles.paid;
+      case "parcial":
+        return styles.partial;
+      case "pendiente":
+        return styles.pending;
+      case "franco":
+        return styles.dayOff;
+      default:
+        return styles.noData;
+    }
+  };
+
+  const getStatusText = (status?: string) => {
+    switch (status) {
+      case "pagado":
+        return "PAGADO";
+      case "parcial":
+        return "PARCIAL";
+      case "pendiente":
+        return "PENDIENTE";
+      case "franco":
+        return "FRANCO";
+      default:
+        return "SIN DATO";
+    }
+  };
+
+  // 👉 NAVEGACIÓN POR FECHA
   const goToDay = (date: string) => {
     router.push(`/driver/day/${date}`);
   };
 
   /* =========================
-     NAV CALENDAR
+     NAVEGACIÓN SEMANAL
   ========================= */
 
-  const prevMonth = () => {
-    setCurrentDate((prev) => {
-      const d = new Date(prev);
-      d.setMonth(d.getMonth() - 1);
-      return d;
+  const prevWeek = () => {
+    setCurrentWeekStart((prev) => {
+      const newDate = new Date(prev);
+      newDate.setDate(newDate.getDate() - 7);
+      return newDate;
     });
   };
 
-  const nextMonth = () => {
-    setCurrentDate((prev) => {
-      const d = new Date(prev);
-      d.setMonth(d.getMonth() + 1);
-      return d;
+  const nextWeek = () => {
+    setCurrentWeekStart((prev) => {
+      const newDate = new Date(prev);
+      newDate.setDate(newDate.getDate() + 7);
+      return newDate;
     });
   };
 
-  const goToToday = () => {
-    setCurrentDate(new Date());
+  const goToTodayWeek = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const start = new Date(today.getFullYear(), today.getMonth(), diff);
+    setCurrentWeekStart(start);
   };
 
   /* =========================
-     BUILD MONTH
+     CONSTRUIR SEMANA
   ========================= */
 
-  const getCalendarDays = (): (CalendarDay | null)[] => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+  const getWeekDays = (): WeekDay[] => {
+    const weekDays: WeekDay[] = [];
+    const dayNames = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+    const dayNamesShort = ["DOM", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB"];
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(currentWeekStart);
+      currentDate.setDate(currentWeekStart.getDate() + i);
 
-    const daysInMonth = lastDay.getDate();
-    const startingDay = firstDay.getDay();
+      const dateStr = formatDate(currentDate);
+      const dayOfMonth = currentDate.getDate();
+      const dayOfWeek = currentDate.getDay();
+      const dayName = dayNames[dayOfWeek];
+      const dayNameShort = dayNamesShort[dayOfWeek];
 
-    const calendarDays: (CalendarDay | null)[] = [];
-
-    for (let i = 0; i < startingDay; i++) calendarDays.push(null);
-
-    for (let i = 1; i <= daysInMonth; i++) {
-      const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
-
+      // Buscar datos para este día
       const dayData = days.find((d) => {
         const dDate = d.date || d.day || d.agenda_date;
         return dDate === dateStr;
       });
 
-      calendarDays.push({
+      const dayDate = new Date(dateStr);
+      dayDate.setHours(0, 0, 0, 0);
+
+      const isToday = dateStr === todayStr;
+      const isPast = dayDate < today;
+      const isFuture = dayDate > today;
+
+      weekDays.push({
         date: dateStr,
+        dayOfMonth,
+        dayName,
+        dayNameShort,
         data: dayData,
-        number: i,
+        isToday,
+        isPast,
+        isFuture,
       });
     }
 
-    return calendarDays;
+    return weekDays;
   };
 
-  const calendarDays = getCalendarDays();
+  const weekDays = getWeekDays();
 
-  const monthName = currentDate.toLocaleDateString("es-AR", {
-    month: "long",
-    year: "numeric",
-  });
+  // Formatear rango de fechas para mostrar
+  const getWeekRange = () => {
+    const start = weekDays[0];
+    const end = weekDays[6];
 
-  const owedDays = 0;
+    const startMonth = new Date(start.date).toLocaleDateString("es-AR", {
+      month: "short",
+    });
+    const endMonth = new Date(end.date).toLocaleDateString("es-AR", {
+      month: "short",
+    });
+
+    if (startMonth === endMonth) {
+      return `${start.dayOfMonth} - ${end.dayOfMonth} ${startMonth}`.toUpperCase();
+    }
+    return `${start.dayOfMonth} ${startMonth} - ${end.dayOfMonth} ${endMonth}`.toUpperCase();
+  };
+
+  /* =========================
+     ESTADÍSTICAS
+  ========================= */
+
+  const getWeekStats = () => {
+    const stats = {
+      pending: 0,
+      partial: 0,
+      paid: 0,
+      dayOff: 0,
+    };
+
+    weekDays.forEach((day) => {
+      if (day.data?.financial_status === "pendiente") stats.pending++;
+      if (day.data?.financial_status === "parcial") stats.partial++;
+      if (day.data?.financial_status === "pagado") stats.paid++;
+      if (day.data?.financial_status === "franco") stats.dayOff++;
+    });
+
+    return stats;
+  };
+
+  const stats = getWeekStats();
 
   /* =========================
      RENDER
@@ -135,115 +242,111 @@ export default function AgendaList({ days }: AgendaListProps) {
 
   return (
     <div className={styles.container}>
-      {/* Toggle vista */}
-      <div className={styles.viewToggle}>
+      {/* HEADER SEMANAL */}
+      <div className={styles.header}>
         <button
-          onClick={() => setViewMode("calendar")}
+          onClick={prevWeek}
           type="button"
-          aria-pressed={viewMode === "calendar"}
+          className={styles.navButton}
+          aria-label="Semana anterior"
         >
-          Calendario
+          ◀
+        </button>
+
+        <div className={styles.weekInfo}>
+          <div className={styles.weekRange}>{getWeekRange()}</div>
+          <button
+            onClick={goToTodayWeek}
+            type="button"
+            className={styles.todayButton}
+          >
+            HOY
+          </button>
+        </div>
+
+        <button
+          onClick={nextWeek}
+          type="button"
+          className={styles.navButton}
+          aria-label="Semana siguiente"
+        >
+          ▶
         </button>
       </div>
 
-      {viewMode === "calendar" ? (
-        <div className={styles.calendarView}>
-          <div className={styles.calendarHeader}>
-            <button onClick={prevMonth} type="button">
-              ◀
-            </button>
+      {/* GRID SEMANAL SIMPLE */}
+      <div className={styles.weekGrid}>
+        {weekDays.map((day) => {
+          const statusClass = getStatusClass(day.data?.financial_status);
+          const isClickable = !day.isPast || day.isToday;
 
-            <div className={styles.monthBlock}>
-              <strong>
-                {monthName.charAt(0).toUpperCase() + monthName.slice(1)}
-              </strong>
-              <button
-                className={styles.todayButton}
-                onClick={goToToday}
-                type="button"
-              >
-                Hoy
-              </button>
-            </div>
-
-            <button onClick={nextMonth} type="button">
-              ▶
-            </button>
-          </div>
-
-          <div className={styles.daysGrid}>
-            {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((d) => (
-              <div key={d} className={styles.dayHeader}>
-                {d}
-              </div>
-            ))}
-
-            {calendarDays.map((calendarDay, index) => {
-              if (!calendarDay)
-                return (
-                  <div
-                    key={`e-${index}`}
-                    className={`${styles.dayCell} ${styles.empty}`}
-                  />
-                );
-
-              const { date, data, number } = calendarDay;
-              const today = isToday(date);
-              const owed = isOwedDay(data);
-              const past = isPastDay(date);
-
-              if (past) {
-                return (
-                  <div
-                    key={date}
-                    className={`${styles.dayCell} ${styles.empty}`}
-                  />
-                );
-              }
-
-              return (
+          return (
+            <div
+              key={day.date}
+              className={`${styles.daySquare} ${statusClass} ${
+                day.isToday ? styles.today : ""
+              } ${day.isPast && !day.isToday ? styles.past : ""} ${
+                isClickable ? styles.clickable : ""
+              }`}
+              onClick={() => isClickable && goToDay(day.date)}
+              role={isClickable ? "button" : "article"}
+              tabIndex={isClickable ? 0 : -1}
+              onKeyDown={(e) => {
+                if (isClickable && (e.key === "Enter" || e.key === " ")) {
+                  e.preventDefault();
+                  goToDay(day.date);
+                }
+              }}
+              aria-label={`${day.dayName} ${day.dayOfMonth} - ${getStatusText(day.data?.financial_status)}`}
+            >
+              {/* DÍA Y NÚMERO */}
+              <div className={styles.dayTop}>
+                <div className={styles.dayName}>{day.dayNameShort}</div>
                 <div
-                  key={date}
-                  className={`${styles.dayCell} ${styles.clickable} ${
-                    today ? styles.today : ""
-                  } ${owed ? styles.owedDay : ""}`}
-                  onClick={() => goToDay(date)}
-                  role="button"
-                  tabIndex={0}
+                  className={`${styles.dayNumber} ${day.isToday ? styles.todayNumber : ""}`}
                 >
-                  <span>{number}</span>
+                  {day.dayOfMonth}
                 </div>
-              );
-            })}
+              </div>
+
+              {/* ESTADO */}
+              <div className={styles.dayStatus}>
+                {getStatusText(day.data?.financial_status)}
+              </div>
+
+              {/* INDICADOR HOY */}
+              {day.isToday && <div className={styles.todayIndicator}></div>}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* CONTADORES */}
+      <div className={styles.counters}>
+        <div className={styles.counterItem}>
+          <div className={styles.counterNumber} style={{ color: "#FF3B30" }}>
+            {stats.pending}
           </div>
+          <div className={styles.counterLabel}>PENDIENTE</div>
         </div>
-      ) : (
-        <ul>
-          {days.map((day, i) => {
-            const raw = day.date || day.day || day.agenda_date || "";
-            const today = isToday(raw);
-            const owed = isOwedDay(day);
-
-            return (
-              <li
-                key={day.id ?? `day-${i}`}
-                onClick={() => goToDay(raw)}
-                role="button"
-                tabIndex={0}
-              >
-                <span>
-                  {raw}
-                  {today && " (Hoy)"}
-                  {owed && " — Adeudado"}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-
-      <div className={styles.footer}>
-        <span>{monthName.charAt(0).toUpperCase() + monthName.slice(1)}</span>
+        <div className={styles.counterItem}>
+          <div className={styles.counterNumber} style={{ color: "#FF9500" }}>
+            {stats.partial}
+          </div>
+          <div className={styles.counterLabel}>PARCIAL</div>
+        </div>
+        <div className={styles.counterItem}>
+          <div className={styles.counterNumber} style={{ color: "#34C759" }}>
+            {stats.paid}
+          </div>
+          <div className={styles.counterLabel}>PAGADO</div>
+        </div>
+        <div className={styles.counterItem}>
+          <div className={styles.counterNumber} style={{ color: "#8E8E93" }}>
+            {stats.dayOff}
+          </div>
+          <div className={styles.counterLabel}>FRANCO</div>
+        </div>
       </div>
     </div>
   );

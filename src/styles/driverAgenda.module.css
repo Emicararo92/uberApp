@@ -1,8 +1,7 @@
 /* ========== CONTENEDOR PRINCIPAL ========== */
 .container {
   padding: 16px;
-  max-width: 480px;
-  margin: 0 auto;
+  width: 100%;
   min-height: 100vh;
   background-color: #ffffff;
   font-family:
@@ -370,9 +369,111 @@
 }
 
 /* ========== MEDIA QUERIES ========== */
+
+/* DESKTOP: Ajustar para sidebar de 260px */
+@media (min-width: 900px) {
+  .container {
+    margin-left: 260px; /* ← ¡ESTO ES LO IMPORTANTE! */
+    max-width: calc(100% - 260px);
+    padding: 32px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .driverName {
+    font-size: 18px;
+    max-width: 250px;
+  }
+
+  .headerStats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .statItem {
+    padding: 16px;
+  }
+
+  .statNumber {
+    font-size: 28px;
+  }
+
+  .statLabel {
+    font-size: 13px;
+  }
+
+  .calendarHeader {
+    margin-bottom: 24px;
+  }
+
+  .currentMonth {
+    font-size: 18px;
+    min-width: 220px;
+  }
+
+  .daysGrid {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .dayCell {
+    padding: 12px;
+  }
+
+  .dayNumber {
+    font-size: 18px;
+  }
+
+  .dayStatus {
+    width: 8px;
+    height: 8px;
+    bottom: 6px;
+  }
+
+  .footer {
+    padding-top: 24px;
+    margin-top: 40px;
+  }
+}
+
+/* TABLET (entre 768px y 899px) */
+@media (min-width: 768px) and (max-width: 899px) {
+  .container {
+    max-width: 100%;
+    margin-left: 0;
+    padding: 24px;
+  }
+
+  /* Ajustar para topbar móvil (64px de altura) */
+  .container {
+    margin-top: 64px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .headerStats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* MOBILE: Ajustar para topbar */
+@media (max-width: 899px) {
+  .container {
+    margin-top: 64px; /* Altura de la topbar móvil */
+    padding: 16px;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* MÓVIL PEQUEÑO */
 @media (max-width: 380px) {
   .container {
     padding: 12px;
+    margin-top: 64px; /* Mantener margen para topbar */
   }
 
   .headerContent {
