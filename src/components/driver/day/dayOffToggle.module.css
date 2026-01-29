@@ -1,44 +1,330 @@
+/* =========================================
+   DAY OFF TOGGLE - ESTILOS
+   ========================================= */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 0.5rem;
+  gap: 12px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  margin: 16px 0;
 }
 
+/* ---------- BADGE DE FRANCO ---------- */
 .dayOffBadge {
-  background: #eef2ff;
-  color: #1e3a8a;
-  padding: 0.6rem;
-  border-radius: 10px;
-  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: #f0f8ff;
+  color: #4a90e2;
+  border-radius: 8px;
+  border: 1px solid rgba(74, 144, 226, 0.2);
+  font-size: 14px;
   font-weight: 600;
-  text-align: center;
+  margin-bottom: 4px;
+}
+
+.dayOffBadge::before {
+  content: "☕";
+  font-size: 16px;
+}
+
+/* ---------- BOTONES ---------- */
+.setBtn,
+.removeBtn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
 }
 
 .setBtn {
-  background: #111827;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 0.7rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
+  background-color: #fff3e0;
+  color: #ff9500;
+  border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+.setBtn:hover:not(:disabled) {
+  background-color: #ffedcc;
+  border-color: rgba(255, 149, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.setBtn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .removeBtn {
-  background: #f3f4f6;
-  color: #111827;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 0.7rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
+  background-color: #ffffff;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
 }
 
+.removeBtn:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.removeBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Estados deshabilitados */
 .setBtn:disabled,
 .removeBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ---------- MODAL DE CONFIRMACIÓN ---------- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modalBox {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: modalAppear 200ms ease-out;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #121212;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalTitle::before {
+  content: "⚠️";
+  font-size: 16px;
+}
+
+.modalText {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.modalText strong {
+  color: #121212;
+  font-weight: 700;
+  background-color: #f8fafc;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ACCIONES DEL MODAL */
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancelBtn,
+.confirmBtn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+  border: 1px solid transparent;
+  min-width: 100px;
+}
+
+.cancelBtn {
+  background-color: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.confirmBtn {
+  background-color: #4a90e2;
+  color: #ffffff;
+  border-color: #4a90e2;
+}
+
+.confirmBtn:hover:not(:disabled) {
+  background-color: #357abd;
+  border-color: #357abd;
+}
+
+/* Estados deshabilitados del modal */
+.cancelBtn:disabled,
+.confirmBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- ESTADOS DE CARGA ---------- */
+.setBtn:disabled::after,
+.removeBtn:disabled::after,
+.confirmBtn:disabled::after,
+.cancelBtn:disabled::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* TABLET */
+@media (min-width: 640px) {
+  .wrapper {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .dayOffBadge {
+    margin-bottom: 0;
+  }
+
+  .setBtn,
+  .removeBtn {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 900px) {
+  .wrapper {
+    margin: 20px 0;
+    padding: 24px;
+  }
+
+  .dayOffBadge {
+    font-size: 15px;
+    padding: 12px 20px;
+  }
+
+  .setBtn,
+  .removeBtn {
+    font-size: 15px;
+    padding: 12px 24px;
+  }
+
+  .modalBox {
+    padding: 28px;
+    max-width: 420px;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+  }
+
+  .modalText {
+    font-size: 15px;
+  }
+
+  .cancelBtn,
+  .confirmBtn {
+    font-size: 14px;
+    padding: 11px 22px;
+  }
+}
+
+/* MOBILE PEQUEÑO */
+@media (max-width: 380px) {
+  .wrapper {
+    padding: 16px;
+  }
+
+  .modalBox {
+    padding: 20px;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .cancelBtn,
+  .confirmBtn {
+    width: 100%;
+  }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  .setBtn,
+  .removeBtn,
+  .cancelBtn,
+  .confirmBtn {
+    transition: none;
+  }
+
+  .modalBox {
+    animation: none;
+  }
+
+  .setBtn:disabled::after,
+  .removeBtn:disabled::after,
+  .confirmBtn:disabled::after,
+  .cancelBtn:disabled::after {
+    animation: none;
+  }
 }
