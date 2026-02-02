@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import styles from "../../styles/adminNav.module.css";
 
 type Props = {
@@ -9,34 +10,46 @@ type Props = {
 
 export default function AdminNav({ adminName }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState("choferes");
+  const router = useRouter();
+  const pathname = usePathname();
 
-  // Datos de ejemplo para badges de notificaciones
   const notificationCounts = {
     choferes: 2,
     pagos: 5,
     reportes: 1,
   };
 
-  const handleItemClick = (item: string) => {
-    setActiveItem(item);
+  const menuItems = [
+    { id: "home", label: "Home", href: "/admin" },
+    { id: "choferes", label: "Choferes", href: "/admin/choferes" },
+    { id: "agenda", label: "Agenda", href: "/admin/agenda" },
+    { id: "pagos", label: "Pagos", href: "/admin/pagos" },
+    { id: "reportes", label: "Reportes", href: "/admin/reportes" },
+    {
+      id: "configuracion",
+      label: "Configuración",
+      href: "/admin/configuracion",
+    },
+  ];
+
+  const handleNavigate = (href: string) => {
+    router.push(href);
     if (mobileMenuOpen) setMobileMenuOpen(false);
   };
 
-  const menuItems = [
-    { id: "choferes", label: "Choferes" },
-    { id: "agenda", label: "Agenda" },
-    { id: "pagos", label: "Pagos" },
-    { id: "reportes", label: "Reportes" },
-    { id: "configuracion", label: "Configuración" },
-  ];
+  const isActive = (href: string) => {
+    if (href === "/admin") return pathname === "/admin";
+    return pathname.startsWith(href);
+  };
 
   return (
     <>
       <nav className={styles.adminNav}>
         {/* ========== DESKTOP SIDEBAR ========== */}
         <aside
-          className={`${styles.adminNavSidebar} ${mobileMenuOpen ? styles.mobileOpen : ""}`}
+          className={`${styles.adminNavSidebar} ${
+            mobileMenuOpen ? styles.mobileOpen : ""
+          }`}
         >
           <div className={styles.adminNavBrand}>
             <strong>Panel Admin</strong>
@@ -49,10 +62,13 @@ export default function AdminNav({ adminName }: Props) {
             {menuItems.map((item) => (
               <li
                 key={item.id}
-                className={`${styles.adminNavItem} ${activeItem === item.id ? styles.active : ""}`}
-                onClick={() => handleItemClick(item.id)}
+                className={`${styles.adminNavItem} ${
+                  isActive(item.href) ? styles.active : ""
+                }`}
+                onClick={() => handleNavigate(item.href)}
               >
                 {item.label}
+
                 {notificationCounts[
                   item.id as keyof typeof notificationCounts
                 ] > 0 && (
@@ -68,7 +84,6 @@ export default function AdminNav({ adminName }: Props) {
             ))}
           </ul>
 
-          {/* Footer opcional */}
           <div className={styles.adminNavFooter}>Versión 1.0.0</div>
         </aside>
 
@@ -93,7 +108,7 @@ export default function AdminNav({ adminName }: Props) {
       {/* Overlay para móvil */}
       {mobileMenuOpen && (
         <div
-          className={`${styles.adminNavOverlay} ${mobileMenuOpen ? styles.mobileOpen : ""}`}
+          className={`${styles.adminNavOverlay} ${styles.mobileOpen}`}
           onClick={() => setMobileMenuOpen(false)}
         />
       )}

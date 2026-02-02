@@ -18,7 +18,7 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -30,8 +30,13 @@ export default function LoginPage() {
       return;
     }
 
-    // 👉 ENTRA A LA APP DEL CHOFER
-    router.push("/driver");
+    const role = data.user?.app_metadata?.role;
+
+    if (role === "admin") {
+      router.push("/admin");
+    } else {
+      router.push("/driver");
+    }
   };
 
   return (

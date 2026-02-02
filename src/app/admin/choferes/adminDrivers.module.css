@@ -1,0 +1,351 @@
+/* =========================================
+   ADMIN DRIVERS - TABLA DE CHOFERES
+   ========================================= */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.container {
+  padding: 16px;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+}
+
+/* ---------- TÍTULO ---------- */
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #121212;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title::before {
+  content: "👥";
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* ---------- ERROR ---------- */
+.error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  border: 1px solid #fed7d7;
+  color: #c53030;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+.error::before {
+  content: "❌";
+  font-size: 16px;
+}
+
+/* ---------- CONTENEDOR DE TABLA ---------- */
+.tableWrapper {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+/* ---------- TABLA ---------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+/* CABECERA DE TABLA */
+.table thead {
+  background-color: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* FILAS DE TABLA */
+.table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 150ms ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table td {
+  padding: 18px 20px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* CELDA DE NOMBRE DEL CHOFER */
+.driverName {
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.driverName::before {
+  content: "👤";
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* CELDA DE DEUDA */
+.debt {
+  font-weight: 700;
+  color: #ef4444;
+}
+
+.debt::before {
+  content: "$";
+  margin-right: 2px;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+/* LINK DE VER DETALLE */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.link:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+  color: #111827;
+  text-decoration: none;
+}
+
+.link::after {
+  content: "→";
+  font-size: 12px;
+  transition: transform 150ms ease;
+}
+
+.link:hover::after {
+  transform: translateX(2px);
+}
+
+/* CELDA VACÍA */
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.empty::before {
+  content: "📭";
+  display: block;
+  font-size: 24px;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+/* ---------- ESTADO ACTIVO/INACTIVO ---------- */
+.statusBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusActive {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.statusInactive {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* TABLET */
+@media (min-width: 640px) {
+  .container {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 28px;
+  }
+
+  .table th,
+  .table td {
+    padding: 20px 24px;
+  }
+
+  .table th {
+    font-size: 13px;
+  }
+
+  .table td {
+    font-size: 15px;
+  }
+
+  .link {
+    padding: 9px 18px;
+    font-size: 14px;
+  }
+}
+
+/* DESKTOP (con sidebar de 260px) */
+@media (min-width: 900px) {
+  .container {
+    margin-left: 260px;
+    max-width: calc(100% - 260px);
+    padding: 28px 32px;
+    background-color: #f5f7fa;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 32px;
+  }
+
+  .tableWrapper {
+    border-radius: 12px;
+  }
+
+  .table th {
+    font-size: 14px;
+    padding: 20px 24px;
+  }
+
+  .table td {
+    padding: 22px 24px;
+    font-size: 15px;
+  }
+
+  .driverName {
+    font-size: 16px;
+  }
+
+  .debt {
+    font-size: 16px;
+  }
+
+  .link {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .empty {
+    padding: 48px 20px;
+    font-size: 15px;
+  }
+}
+
+/* GRAN DESKTOP */
+@media (min-width: 1280px) {
+  .container {
+    padding: 32px 40px;
+  }
+
+  .table th,
+  .table td {
+    padding: 24px 28px;
+  }
+
+  .driverName {
+    font-size: 17px;
+  }
+}
+
+/* MOBILE PEQUEÑO */
+@media (max-width: 380px) {
+  .container {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .table th,
+  .table td {
+    padding: 14px 16px;
+  }
+
+  .table th {
+    font-size: 11px;
+  }
+
+  .table td {
+    font-size: 13px;
+  }
+
+  .link {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* AJUSTE PARA TOPBAR MOBILE */
+@media (max-width: 899px) {
+  .container {
+    margin-top: 64px; /* Altura de la topbar móvil */
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* ---------- ACCESIBILIDAD ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .table tbody tr,
+  .link {
+    transition: none;
+  }
+
+  .link:hover::after {
+    transform: none;
+  }
+}

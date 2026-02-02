@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 
-export const supabaseServer = async () => {
+export async function supabaseServer() {
   const cookieStore = await cookies();
 
   return createServerClient(
@@ -12,18 +12,11 @@ export const supabaseServer = async () => {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          } catch {
-            // server component, ignore
-          }
+        setAll() {
+          // ❌ NO se escriben cookies en Server Components
+          // ✔️ La sesión ya existe, solo leemos
         },
       },
     },
   );
-};
-
-export { createServerClient };
+}

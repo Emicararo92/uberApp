@@ -1,0 +1,633 @@
+/* =========================================
+   ADMIN HOME - DISEÑO MODERNO CON FONDO CLARO
+   ========================================= */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.container {
+  padding: 16px;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+}
+
+/* ---------- TÍTULO ---------- */
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #121212;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title::before {
+  content: "📊";
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* ---------- ERROR ---------- */
+.error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  border: 1px solid #fed7d7;
+  color: #c53030;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+.error::before {
+  content: "❌";
+  font-size: 16px;
+}
+
+/* ---------- GRID DE CARDS ---------- */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* ---------- CARD ---------- */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border-color: black;
+  border: 2px;
+  display: flex;
+  flex-direction: column;
+  transition: all 200ms ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #e2e6eb;
+}
+
+/* Borde de color sutil */
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* Colores de borde superiores */
+.card:nth-child(1)::after {
+  background: linear-gradient(90deg, #4a90e2, #6ba5f0);
+}
+.card:nth-child(2)::after {
+  background: linear-gradient(90deg, #ff9500, #ffab40);
+}
+.card:nth-child(3)::after {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+.card:nth-child(4)::after {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+/* Etiqueta de la card */
+.cardLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cardLabel::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  display: inline-block;
+}
+
+/* Valor de la card */
+.cardValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+/* Subtítulo descriptivo */
+.cardSubtitle {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: auto;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ---------- ALERTAS ---------- */
+.alerts {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e7eb;
+}
+
+.alertsTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.alertsTitle::before {
+  content: "🔔";
+  font-size: 14px;
+  color: #f59e0b;
+}
+
+.alertsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alertsList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background-color: #fffbeb;
+  border-radius: 8px;
+  border-left: 3px solid #f59e0b;
+  font-size: 14px;
+  color: #92400e;
+  transition: background-color 150ms ease;
+}
+
+.alertsList li:hover {
+  background-color: #fef3c7;
+}
+
+.alertsList li::before {
+  content: "⚠️";
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* TABLET */
+@media (min-width: 640px) {
+  .container {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 32px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .cardLabel {
+    font-size: 13px;
+  }
+
+  .cardValue {
+    font-size: 32px;
+  }
+
+  .alerts {
+    padding: 26px;
+  }
+
+  .alertsTitle {
+    font-size: 17px;
+  }
+}
+
+/* DESKTOP (con sidebar de 260px) */
+@media (min-width: 900px) {
+  .container {
+    margin-left: 260px;
+    max-width: calc(100% - 260px);
+    padding: 28px 32px;
+    background-color: #f5f7fa;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 36px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .cardLabel {
+    font-size: 14px;
+  }
+
+  .cardValue {
+    font-size: 36px;
+  }
+
+  .cardSubtitle {
+    font-size: 12px;
+  }
+
+  .alerts {
+    padding: 28px;
+  }
+
+  .alertsTitle {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .alertsList li {
+    padding: 16px;
+    font-size: 15px;
+  }
+}
+
+/* GRAN DESKTOP */
+@media (min-width: 1280px) {
+  .container {
+    padding: 32px 40px;
+  }
+
+  .cardsGrid {
+    gap: 28px;
+  }
+
+  .card {
+    padding: 28px;
+  }
+
+  .cardValue {
+    font-size: 40px;
+  }
+
+  .alerts {
+    padding: 32px;
+  }
+}
+
+/* MOBILE PEQUEÑO */
+@media (max-width: 380px) {
+  .container {
+    padding: 12px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .cardLabel {
+    font-size: 11px;
+  }
+
+  .cardValue {
+    font-size: 26px;
+  }
+
+  .alerts {
+    padding: 20px;
+  }
+
+  .alertsList li {
+    font-size: 13px;
+    padding: 12px;
+  }
+}
+
+/* AJUSTE PARA TOPBAR MOBILE */
+@media (max-width: 899px) {
+  .container {
+    margin-top: 64px; /* Altura de la topbar móvil */
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* ---------- ACCESIBILIDAD ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.lastPayments {
+  margin-top: 2rem;
+}
+
+.lastPaymentsList {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lastPaymentItem {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.paymentDriver {
+  font-weight: 500;
+}
+
+.paymentDate {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.paymentAmount {
+  font-weight: 600;
+}
+
+/* =========================================
+   ÚLTIMOS PAGOS - NUEVA SECCIÓN
+   ========================================= */
+
+/* ---------- SECCIÓN DE ÚLTIMOS PAGOS ---------- */
+.lastPayments {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e7eb;
+  margin-top: 24px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.sectionTitle::before {
+  content: "💰";
+  font-size: 14px;
+  color: #10b981;
+}
+
+/* ---------- LISTA DE ÚLTIMOS PAGOS ---------- */
+.lastPaymentsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lastPaymentItem {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 150ms ease;
+}
+
+.lastPaymentItem:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  transform: translateX(2px);
+}
+
+/* Nombre del chofer */
+.paymentDriver {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Fecha del pago */
+.paymentDate {
+  font-size: 12px;
+  font-weight: 500;
+  color: black;
+  background-color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  min-width: 90px;
+  text-align: center;
+}
+
+.paymentDate::before {
+  content: "📅";
+  margin-right: 4px;
+  font-size: 10px;
+}
+
+/* Monto del pago */
+.paymentAmount {
+  font-size: 16px;
+  font-weight: 700;
+  color: #10b981;
+  background-color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1fae5;
+  min-width: 100px;
+  text-align: center;
+}
+
+.paymentAmount::before {
+  content: "$";
+  margin-right: 2px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* TABLET */
+@media (min-width: 640px) {
+  .lastPayments {
+    padding: 26px;
+  }
+
+  .sectionTitle {
+    font-size: 17px;
+  }
+
+  .lastPaymentsList {
+    gap: 12px;
+  }
+
+  .lastPaymentItem {
+    padding: 16px 20px;
+  }
+
+  .paymentDriver {
+    font-size: 15px;
+  }
+
+  .paymentDate {
+    font-size: 13px;
+    min-width: 100px;
+  }
+
+  .paymentAmount {
+    font-size: 17px;
+    min-width: 110px;
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 900px) {
+  .lastPayments {
+    padding: 28px;
+    margin-top: 32px;
+  }
+
+  .sectionTitle {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .lastPaymentsList {
+    gap: 14px;
+  }
+
+  .lastPaymentItem {
+    padding: 18px 24px;
+  }
+
+  .paymentDriver {
+    font-size: 16px;
+  }
+
+  .paymentDate {
+    font-size: 14px;
+    min-width: 110px;
+  }
+
+  .paymentAmount {
+    font-size: 18px;
+    min-width: 120px;
+  }
+}
+
+/* MOBILE PEQUEÑO */
+@media (max-width: 380px) {
+  .lastPayments {
+    padding: 20px;
+  }
+
+  .lastPaymentItem {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .paymentDriver {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 13px;
+  }
+
+  .paymentDate {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 11px;
+    min-width: auto;
+    justify-self: center;
+  }
+
+  .paymentAmount {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: 14px;
+    min-width: auto;
+    justify-self: center;
+  }
+}
+
+/* ---------- ACCESIBILIDAD ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .lastPaymentItem {
+    transition: none;
+    transform: none !important;
+  }
+}
